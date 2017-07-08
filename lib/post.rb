@@ -1,8 +1,7 @@
 # encoding: utf-8
 require 'sqlite3'
 
-# Базовый класс «Запись» — здесь мы определим основные методы и свойства,
-# общие для всех типов записей.
+# Base  class Post
 class Post
   SQLITE_DB_FILE = 'notepad.sqlite'.freeze
 
@@ -19,34 +18,40 @@ class Post
     post_types[type.to_sym].new
   end
 
+  def self.result_empty?(result, type, id)
+    if result.empty?
+      puts "id #{id} not found:("
+      return nil
+    else
+      result = result[0]
+      post = create(result['type'])
+      post.load_data(result)
 
-  # Метод Post.find находит в базе запись по идентификатору или массив записей
-  # из базы данных, который можно например показать в виде таблицы на экране
+      post
+    end
+  end
+
+  def self.read_query(type, limit)
+    query = 'SELECT rowid, * FROM posts '
+    query += 'WHERE type = :type ' unless type.nil?
+    query += 'ORDER by rowid DESC '
+    query += 'LIMIT :limit ' unless limit.nil?
+    query
+  end
+
+  # Post.find post or array of posts from db to show for user
   def self.find(limit, type, id)
     db = SQLite3::Database.open(SQLITE_DB_FILE)
 
-    if !id.nil?
+    unless id.nil?
       db.results_as_hash = true
       result = db.execute('SELECT * FROM posts WHERE  rowid = ?', id)
       db.close
 
-      if result.empty?
-        puts "id #{id} not found:("
-        return nil
-      else
-        result = result[0]
-        post = create(result['type'])
-        post.load_data(result)
-
-        post
-      end
+      result_empty?(result, type, id)
     else
       db.results_as_hash = false
-      query = 'SELECT rowid, * FROM posts '
-      query += 'WHERE type = :type ' unless type.nil?
-      query += 'ORDER by rowid DESC '
-      query += 'LIMIT :limit ' unless limit.nil?
-
+      query = read_query(type,limit)
       statement = db.prepare query
       statement.bind_param('type', type) unless type.nil?
       statement.bind_param('limit', limit) unless limit.nil?
@@ -54,7 +59,7 @@ class Post
       statement.close
 
       db.close
-      
+
       result
     end
   end
@@ -65,19 +70,17 @@ class Post
   def to_strings
   end
 
-  # Метод load_data заполняет переменные эземпляра из полученного хэша
+  # load_data from hash to instance variables
   def load_data(data_hash)
     @created_at = Time.parse(data_hash['created_at'])
     @text = data_hash['text']
   end
 
-  # Метод to_db_hash должен вернуть хэш типа {'имя_столбца' -> 'значение'} для
-  # сохранения новой записи в базу данных
+  # to_db_hash returns hash {'name' -> 'value'} for save to db
   def to_db_hash
     { type: self.class.name, created_at: @created_at.to_s }
   end
 
-  # Метод save_to_db, сохраняющий состояние объекта в базу данных.
   def save_to_db
     db = SQLite3::Database.open(SQLITE_DB_FILE)
     db.results_as_hash = true

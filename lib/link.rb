@@ -1,6 +1,6 @@
 # encoding: utf-8
-#
-# Класс «Ссылка», разновидность базового класса «Запись»
+# class Link inherited from Post
+
 class Link < Post
   def initialize
     super
@@ -20,12 +20,12 @@ class Link < Post
     [@url, @text, time_string]
   end
 
-  # Метод to_db_hash у Задачи добавляет два ключа в хэш
+  # Method to_db_hash add 2 keys to hash
   def to_db_hash
     super.merge(text: @text, url: @url)
   end
 
-  # Метод load_data у Ссылки считывает дополнительно url ссылки
+  # Method load_data reads url
   def load_data(data_hash)
     super
     @url = data_hash['url']

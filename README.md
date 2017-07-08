@@ -1,33 +1,32 @@
-## Программа "Блокнот"
+## "Notepad"
 
-### Зависимости
-Программа Блокнот написана на языке Ruby. Поэтому для работы с ней вам потребуется 
-установить интерпретатор Ruby в вашу систему. Также необходима база данных sqlite3. 
-Все заметки, задачи, ссылки хранятся в БД notepad.sqlite.
+### Dependencies
+Notepad is written on Ruby language. You have to install ruby to your operating system, and 
+sqlite3 database. All posts stored in notepad.sqlite database file.
 
 <code> 
   $ sudo apt-get install ruby sqlite3 libsqlite3-dev
 </code>  
        
-### Функции
-С помощью консольного блокнота можно создать 3 типа записей: 
-* Заметка - Memo 
-* Задача - Task
-* Ссылка - Link
+### Functions
+You can make 3 types of posts: 
+* Note - Memo 
+* Task to work with - Task
+* Url of any web site - Link
 
-### Запуск программы        
-* Скачайте архив с файлами
-* Чтобы создать новую заметку, задачу или ссылку:
+### Launch        
+* Download archive with files
+* To create any post launch:
 
 <code>$ ruby new_post.rb</code>
 
-* Чтобы прочитать уже записанные в базу посты:
+* To read any post from database:
 
 <code>$ ruby read.rb</code>
 
 ## 
 
-Спроектировали ООП программу, познакомились с наследованием, поработали с БД sqlite3,
-SQL запросами, словариками. 
+Design OOP program, learn how to inherit from class, work with sqlite3 database,
+SQL queries, hashes. 
 
-###### Учебное приложение в рамках программы интенсива по Ruby on Rails http://goodprogrammer.ru
+###### Simple console notepad for study purposes. Made as homework on Ruby on Rails course  http://goodprogrammer.ru

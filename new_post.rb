@@ -1,16 +1,13 @@
 # encoding: utf-8
-#
-# Программа «Блокнот», демонстрирующая наследование классов в ruby.
-# Версия 2.0, хранящая свои данные в базе данных SQLite
-# Этот скрипт создает новые записи, чтением занимается другой скрипт
-#
+# new_post.rb
+
 require_relative 'lib/post'
 require_relative 'lib/memo'
 require_relative 'lib/link'
 require_relative 'lib/task'
-require_relative 'lib/db_init'
+require_relative 'lib/init_db'
 
-# Этот код необходим только при использовании русских букв на Windows
+# Windows hack for encoding utf-8 to work properly
 if Gem.win_platform?
   Encoding.default_external = Encoding.find(Encoding.locale_charmap)
   Encoding.default_internal = __ENCODING__
@@ -20,7 +17,7 @@ if Gem.win_platform?
   end
 end
 
-# Создаем БД
+# create database
 include InitDb
 create_notepad
 

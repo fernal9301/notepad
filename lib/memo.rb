@@ -1,6 +1,6 @@
 # encoding: utf-8
-#
-# Класс «Заметка», разновидность базового класса «Запись»
+# class Memo inherited from Post
+
 class Memo < Post
   def read_from_console
     puts 'New memo (type "end" on a new line to quit):'
@@ -20,12 +20,12 @@ class Memo < Post
     @text.unshift(time_string)
   end
 
-  # Метод to_db_hash у Заметки добавляет один ключ в хэш
+  # Method to_db_hash add 1 key to hash
   def to_db_hash
     super.merge(text: @text.join('\n\r'))
   end
 
-  # Метод load_data у Заметки считывает дополнительно text заметки
+  # Method load_data reads text
   def load_data(data_hash)
     super(data_hash)
     @text = data_hash['text'].encode('UTF-8').split('\n\r')

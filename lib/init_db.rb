@@ -1,5 +1,5 @@
 # encoding: utf-8
-# db_init.rb 
+# init_db.rb
 require 'sqlite3'
 
 module InitDb
@@ -19,4 +19,4 @@ module InitDb
     ensure
       db.close if db
   end
-end 
+end
