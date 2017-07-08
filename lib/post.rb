@@ -1,10 +1,8 @@
 # encoding: utf-8
-require 'sqlite3'
+require_relative 'init_db'
 
 # Base  class Post
 class Post
-  SQLITE_DB_FILE = 'notepad.sqlite'.freeze
-
   def initialize
     @created_at = Time.now
     @text = []
@@ -39,6 +37,15 @@ class Post
     query
   end
 
+  def self.prepare_query(type, limit, db, query)
+    statement = db.prepare query
+    statement.bind_param('type', type) unless type.nil?
+    statement.bind_param('limit', limit) unless limit.nil?
+    result = statement.execute!
+    statement.close
+    result
+  end
+
   # Post.find post or array of posts from db to show for user
   def self.find(limit, type, id)
     db = SQLite3::Database.open(SQLITE_DB_FILE)
@@ -52,12 +59,7 @@ class Post
     else
       db.results_as_hash = false
       query = read_query(type,limit)
-      statement = db.prepare query
-      statement.bind_param('type', type) unless type.nil?
-      statement.bind_param('limit', limit) unless limit.nil?
-      result = statement.execute!
-      statement.close
-
+      result = prepare_query(type, limit, db, query)
       db.close
 
       result

@@ -3,6 +3,7 @@ require_relative 'lib/post'
 require_relative 'lib/memo'
 require_relative 'lib/link'
 require_relative 'lib/task'
+require_relative 'lib/init_db'
 require 'optparse'
 
 # Windows hack for encoding utf-8 to work properly
@@ -15,10 +16,9 @@ if Gem.win_platform?
   end
 end
 
-unless File.exist?(File.dirname(__FILE__) + '/notepad.sqlite')
-  puts "Launch new_post.rb first and create any post to read"
-  exit
-end
+# create db if not exist
+include InitDb
+create_notepad
 
 options = {}
 
