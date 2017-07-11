@@ -53,14 +53,12 @@ class Post
     unless id.nil?
       db.results_as_hash = true
       result = db.execute('SELECT * FROM posts WHERE  rowid = ?', id)
-      db.close
 
       result_empty?(result, type, id)
     else
       db.results_as_hash = false
       query = read_query(type,limit)
       result = prepare_query(type, limit, db, query)
-      db.close
 
       result
     end
@@ -88,6 +86,7 @@ class Post
     db.results_as_hash = true
 
     post_hash = to_db_hash
+    puts post_hash
 
     db.execute(
       'INSERT INTO posts (' +

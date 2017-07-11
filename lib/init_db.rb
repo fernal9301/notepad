@@ -1,9 +1,10 @@
 # encoding: utf-8
 # init_db.rb
 require 'sqlite3'
-SQLITE_DB_FILE = 'notepad.sqlite'.freeze
 
 module InitDb
+  SQLITE_DB_FILE = 'notepad.sqlite'.freeze
+
   def create_notepad
     db = SQLite3::Database.new(SQLITE_DB_FILE)
     db.execute <<-SQL

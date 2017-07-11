@@ -52,11 +52,9 @@ else
     puts
 
     row.each do |element|
-      element_text = "#{element.to_s.encode('UTF-8').strip[0..17]}"
-
-      element_text << ' ' * (21 - element_text.size)
-
-      print element_text
+      element_text = element.to_s.encode('UTF-8')
+      element_text << '   ' * 2 
+      print element_text.gsub(/\\n\\r/, " ") 
     end
   end
 
