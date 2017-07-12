@@ -48,7 +48,7 @@ class Post
 
   # Post.find post or array of posts from db to show for user
   def self.find(limit, type, id)
-    db = SQLite3::Database.open(SQLITE_DB_FILE)
+    db = SQLite3::Database.open(InitDb::SQLITE_DB_FILE)
 
     unless id.nil?
       db.results_as_hash = true
@@ -82,7 +82,7 @@ class Post
   end
 
   def save_to_db
-    db = SQLite3::Database.open(SQLITE_DB_FILE)
+    db = SQLite3::Database.open(InitDb::SQLITE_DB_FILE)
     db.results_as_hash = true
 
     post_hash = to_db_hash

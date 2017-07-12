@@ -16,9 +16,7 @@ if Gem.win_platform?
   end
 end
 
-# create db if not exist
-include InitDb
-create_notepad
+InitDb.create_notepad
 
 options = {}
 

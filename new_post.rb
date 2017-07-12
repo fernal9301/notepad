@@ -17,9 +17,7 @@ if Gem.win_platform?
   end
 end
 
-# create database
-include InitDb
-create_notepad
+InitDb.create_notepad
 
 puts 'Hello, it\'s a simple notepad!'
 puts 'Version 2 with SQlite support'
